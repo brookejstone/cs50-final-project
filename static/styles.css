@@ -1,0 +1,127 @@
+body {
+    /* making sure all my text appears lowercase on website for vibes */
+    text-transform: lowercase;
+    /* making font Poppins with weight I liked from Google Fonts */
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    background-color: #f9fbfb;
+    color: #333
+}
+
+/* changing layout of the main page to look the way I want */
+.page {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 0 16px;
+}
+
+/* color for error text to be less alarming */
+.error {
+    color: #f77c6d;
+    margin-top: 10px;
+    font-size: 0.85rem;
+}
+
+/* changing font sizes to adjust to making base font bolder */
+h1 {
+    font-weight: 600;   
+    font-size: 2.1rem;
+}
+
+h2 {
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+p {
+    font-weight: 300;  
+    line-height: 1.6;
+}
+
+button, a.btn {
+    font-weight: 500; 
+}
+
+
+.auth-container {
+    max-width: 380px;
+    margin: 80px auto;
+}
+
+/* adjusting how the login/register pages look to keep them smaller in the center of page */
+.auth-container {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    text-align: left;
+}
+
+.auth-heading {
+    font-size: 1.6rem;
+    font-weight: 500;
+    text-transform: lowercase;
+    margin-bottom: 4px;
+}
+
+.auth-subtext {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 16px;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* making inputs aesthetic */
+.input {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.input:focus {
+    border-color: #92b3ff;
+    box-shadow: 0 0 0 2px rgba(146, 179, 255, 0.2);
+}
+
+/* small text under form that sends user to login/register if wanted */
+.auth-footer {
+    margin-top: 12px;
+    font-size: 0.85rem;
+    color: #777;
+}
+
+/* adjusting button and how looks when user interacting with it: allows me to use less javascript */
+.primary-button { 
+    margin-top: 8px; 
+    border: none; 
+    border-radius: 999px; 
+    padding: 12px 28px;
+    font-size: 0.95rem; 
+    font-weight: 500; 
+    font-family: 'Poppins', sans-serif;
+    text-transform: lowercase; 
+    background-color: #D8F2E0;
+    color: #4A4A4A; 
+    /* turns cursor into the clicky hand when they hover */
+    cursor: pointer; 
+    /* slows the transitions of color and position down- less jarring to fit my calming vibe */
+    transition: background-color 0.15s ease, transform 0.05s ease; 
+}
+
+/* change look of button when hovered on */
+.primary-button:hover {
+    background-color: #C4E8D2; 
+    transform: translateY(-1px);
+}
+
+/* make button look different when clicked versus hovered */
+.primary-button:active {
+    transform: translateY(0);
+}

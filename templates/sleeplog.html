@@ -1,0 +1,108 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    sleep entry
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <h2 class="mb-2 text-capitalize">log your sleep!</h2>
+            <p class="text-muted small mb-4">
+                how was your night's rest?
+            </p>
+
+            <form action="/sleep/log" method="post" class="sleep-form">
+
+                <!-- dropdowns for hours and minutes -->
+                <div class="mb-3">
+                    <!-- label to make more accessible to screen readers -->
+                    <label class="form-label text-lowercase">
+                        hours of sleep
+                    </label>
+                    <div class="d-flex gap-2">
+                        {# creates dropdown for 0-15 hours of sleep, the {% if %} statement lets user keep selection  #}
+                        {# for hours even if they messed up somewhere in form and gets page reloaded with error message #}
+                        <select name="hours" class="form-select w-auto">
+                            {% for h in range(0, 15) %}
+                                <option value="{{ h }}"
+                                    {% if selected_hours is defined and selected_hours|int == h %} 
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ h }} h
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <select name="minutes" class="form-select w-auto">
+                            <!-- same as above but dropdown for minutes in 15 min increments -->
+                            {% for m in [0, 15, 30, 45] %}
+                                <option value="{{ m }}"
+                                    {% if selected_minutes is defined and selected_minutes|int == m %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ m }} min
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-text text-muted">
+                        doesn't have to be perfect - just say your best guess!
+                    </div>
+                </div>
+
+                <!-- dropdown for how they feel post-wakeup- options come from feelings[] in app.py -->
+                <div class="mb-3">
+                    <label class="form-label text-lowercase" for="feeling">
+                        how do you feel right now?
+                    </label>
+                    <select id="feeling" name="feeling" class="form-select">
+                        <option value="">how do you feel? choose one! (optional)</option>
+                            <!-- show feelings[] as options for dropdown- if make error in other fields, -->
+                            <!-- won't lose the input for this field due to if statement --> 
+                            {% for f in feelings %}
+                                <option value="{{ f }}"
+                                    {% if selected_feeling is defined and selected_feeling == f %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ f }}
+                                </option>
+                            {% endfor %}
+                    </select>
+                </div>
+
+                <!-- box for optional reflection response -->
+                <div class="mb-3">
+                    <label for="reflection" class="form-label text-lowercase">
+                        anything to note about last night's sleep?
+                    </label>
+                    <textarea
+                        id="reflection"
+                        name="reflection"
+                        class="form-control"
+                        rows="3"
+                        placeholder="late-night scrolling, caffeine, naps, stress, workouts..."
+                    >{{ reflection if reflection is defined else "" }}</textarea>
+                </div>
+
+                {% if error %}
+                    <p class="error">{{ error }}</p>
+                {% endif %}
+
+                <button type="submit" class="primary-button mt-2">
+                    save sleep entry
+                </button>
+                <a href="/sleep" class="btn btn-link ms-2 text-lowercase">
+                    cancel
+                </a>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

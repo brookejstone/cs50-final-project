@@ -1,0 +1,88 @@
+<!-- like other pages with daily cards, but this time for activities -->
+<!-- section below daily cards containing suggestions for mindfulness -->
+<!-- activities to reference in case user needs inspiration -->
+{% extends "layout.html" %}
+
+{% block title %}
+    mindfulness activities
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+
+    <!-- header -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-capitalize">your mindful activities</h2>
+        <a href="/activities/log" class="primary-button">log new activity</a>
+    </div>
+
+    <!-- daily cards -->
+    {% if days %}
+        {% for day in days %}
+            <div class="card mb-4 shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title mb-3 text-muted">
+                        {{ day.day | lower }} {# still making sure to keep things lowercase #}
+                    </h5>
+
+                    <!-- card for each day -->
+                    {% for entry in day.entries %}
+                        <div class="mb-3 p-3 rounded" style="background-color: #fff7f7;">
+                            <p class="mb-1">
+                                <strong class="text-capitalize">{{ entry.name }}</strong>
+                                <span class="text-muted">• {{ entry.duration }}</span>
+                                {% if entry.enjoyment is not none %}
+                                    <span class="text-muted">
+                                        • {{ "%.1f"|format(entry.enjoyment) }}/10 {# ensure entries # 1-10 one decimal place #}
+                                    </span>
+                                {% endif %}
+                            </p>
+
+                            {% if entry.reflection %}
+                                <p class="text-muted small mb-0">
+                                    {{ entry.reflection }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    {% else %} {# in case haven't logged any activities yet #}
+        <p class="text-muted mt-4">
+            no activities logged yet — try being mindful with yourself today and logging i!
+        </p>
+    {% endif %}
+
+    <!-- activity bank -->
+    <hr class="my-4">
+
+    <div class="row">
+        <!-- recommendations from me -->
+        <div class="col-md-6 mb-4">
+            <h4 class="h5 text-capitalize mb-3">activity bank: ideas for you from us</h4>
+            <ul class="list-unstyled mb-0">
+                {% for item in recommended %}
+                    <li class="mb-1">• {{ item }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <!-- ideas from users' previous activities -->
+        <div class="col-md-6 mb-4">
+            <h4 class="h5 text-capitalize mb-3">need more inspo? here are things you've tried before.</h4>
+            {% if user_activities %}
+                <ul class="list-unstyled mb-0">
+                    {% for item in user_activities %}
+                        <li class="mb-1">• {{ item }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-muted small mb-0">
+                    once you log some activities, they'll show up here for you to refer back to.
+                </p>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

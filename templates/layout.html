@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <!-- this lets me ensure characters look same across all platforms 
-         and lets me use emojis more easily -->
+        <!-- this lets me ensure characters look same across all platforms and lets me use emojis more easily -->
         <meta charset="utf-8">
 
         <!-- adjusts site layout to all devices -->
@@ -12,8 +11,6 @@
         <link
             href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
-            integrity="sha384-T3c6CoIi6GSi2jKf08sK7LrA2b6U6U6HjOMaLkfk7Tz7kG6zP2nF8cpkKf5h3v5Q"
-            crossorigin="anonymous"
         />
 
         <!-- using the Poppins font from Google Fonts to achieve minimalistic but not robotic vibe -->
@@ -21,7 +18,8 @@
 
         <!-- connect to stylesheet -->
         <link href="/static/styles.css" rel="stylesheet">
-        <title>bloom hub</title>
+        <!-- have tab say which route we're on -->
+        <title>bloom hub: {% block title %}home{% endblock %}</title>
     </head>
     <body>
         <nav class="navbar navbar-expand-md navbar-light bg-white border-bottom">
@@ -37,7 +35,7 @@
                 <!-- collapsible nav content -->
                 <div class="collapse navbar-collapse" id="navbar">
                     <!-- if logged in, shows the tabs for mood activities and sleep with logout to the right-->
-                    {% if session["user_id"] %}
+                    {% if session.get("user_id") %}
                         <ul class="navbar-nav me-auto mt-2">
                             <li class="nav-item"><a class="nav-link text-lowercase" href="/mood">mood</a></li>
                             <li class="nav-item"><a class="nav-link text-lowercase" href="/activities">activities</a></li>
@@ -69,14 +67,12 @@
         <!-- different from finance- this allows me to have stuff not all be center aligned -->
         <!-- and allows me to create my own custom design for spacing aesthetics to improve UX -->
         <main class="page">
-            {% block body %}{% endblock %}
+            {% block main %}{% endblock %}
         </main>
 
         <!-- bootstrap javascript to make layout actually work with bootstrapped html -->
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-A3Yl9J4y7G6jgjtYI5nB3XaG9q4CPGK/c/pX9nuSUXGKmzME2YkdE+5EYXPL3x4P"
-            crossorigin="anonymous"
         ></script>
     </body>
 </html>

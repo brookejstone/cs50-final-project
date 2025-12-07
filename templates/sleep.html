@@ -1,0 +1,57 @@
+<!-- very similar format to mood.html: daily cards showing sleep -->
+{% extends "layout.html" %}
+
+{% block title %}
+    sleep
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-capitalize">your sleep</h2>
+        <a href="/sleep/log" class="primary-button">log new sleep</a>
+    </div>
+
+    {% if days %}
+        {% for day in days %}
+            <div class="card mb-4 shadow-sm border-0">
+                <div class="card-body">
+
+                    <!-- show date at top -->
+                    <h5 class="card-title mb-3 text-muted">
+                        {{ day.day | lower }}
+                    </h5>
+
+                    <!-- entries for that day (in case they log more than once for naps, etc.) -->
+                    {% for entry in day.entries %}
+                        <div class="mb-3 p-3 rounded" style="background-color: #f5fbf7;">
+                            <p class="mb-1">
+                                <strong>{{ entry.time }}</strong>
+                                slept <strong>{{ entry.sleep_str }}</strong>
+                                {% if entry.feeling %}
+                                    <span class="text-muted">
+                                        — feeling {{ entry.feeling }}
+                                    </span>
+                                {% endif %}
+                            </p>
+
+                            {% if entry.reflection %}
+                                <p class="text-muted small mb-0">
+                                    {{ entry.reflection }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="text-muted mt-4">
+            you haven't logged sleep yet- tonight's a great night to start!
+        </p>
+    {% endif %}
+
+</div>
+{% endblock %}

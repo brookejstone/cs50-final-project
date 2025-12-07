@@ -1,22 +1,36 @@
 <!-- code below will appear in the index page -->
 {% extends "layout.html" %}
 
-{% block body %}
-<h2>create an account!</h2>
+{% block title %}
+    register
+{% endblock %}
 
-<form action="/register" method="post">
+{% block main %}
+    <div class="auth-container">
+        <h2 class="auth-heading">create an account!</h2>
+        <p class="auth-subtext">
+            start tracking how you feel, rest, and reset.
+        </p>
 
-    <!-- the form that lets them create account -->
-    <input type="text" name="username" placeholder="username" class="input">
-    <input type="password" name="password" placeholder="password" class="input">
-    <input type="password" name="confirmation" placeholder="confirm password" class="input">
+        <!-- the form that lets them create account -->
+        <form action="/register" method="post" class="auth-form">
+            <input type="text" name="username" placeholder="username" class="input" autocomplete="off" autofocus>
+            <input type="password" name="password" placeholder="password" class="input" autocomplete="off">
+            <input type="password" name="confirmation" placeholder="confirm password" class="input" autocomplete="off">
+            <input type="text" name="name" placeholder="what's your name?" class="input" autocomplete="off">
 
-    <!-- if they do something weird in form, corresponding error will 
-    appear below it -->
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
+            <!-- if they do something weird in form, corresponding error will appear below it -->
+            {% if error %}
+                <p class="error">{{ error }}</p>
+            {% endif %}
 
-    <button type="submit">register</button>
-</form>
+            <button class="primary-button" type="submit">register</button>
+        </form>
+
+        <!-- sends to login page if clicked -->
+        <p class="auth-footer">
+            already have an account?
+            <a href="/login">log in</a>
+        </p>
+    </div>
 {% endblock %}

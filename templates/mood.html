@@ -1,0 +1,57 @@
+<!-- users can see their mood history based on past logs -->
+<!-- top of page: log today's mood -->
+<!-- using bootstraps to  --> 
+{% extends "layout.html" %}
+
+{% block title %}
+    mood
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="text-capitalize">your moods</h2>
+        <a href="/mood/log" class="primary-button">log new mood</a>
+    </div>
+
+    {# using bootstrap to make nice looking day cards #}
+    {% if days %}
+        {% for day in days %}
+            <div class="card mb-4 shadow-sm border-0">
+                <div class="card-body">
+
+                    <!-- says date -->
+                    <h5 class="card-title mb-3 text-muted">
+                        {{ day.day | lower }}
+                    </h5>
+
+                    <!-- shows all mood entries for that day -->
+                    {% for entry in day.entries %}
+                        <div class="mb-3 p-3 rounded" style="background-color: #f7f9ff;">
+                            <p class="mb-1">
+                                {# bolds time of entry #}
+                                <strong>{{ entry.time }}</strong> —
+                                feeling <span class="text-capitalize">{{ entry.mood }}</span>
+                                <span class="text-muted">({{ entry.vibe }})</span>
+                            </p>
+
+                            {% if entry.cause %}
+                                <p class="text-muted small mb-0">
+                                    {{ entry.cause }}
+                                </p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        {% endfor %}
+    
+    {% else %} {# if haven't logged any days tells them that #}
+        <p class="text-muted mt-4">
+            no moods logged yet — start by creating one!
+        </p>
+    {% endif %}
+
+</div>
+{% endblock %}

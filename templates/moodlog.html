@@ -1,0 +1,95 @@
+<!-- users can add new mood entry -->
+{% extends "layout.html" %}
+
+{% block title %}
+    mood entry
+{% endblock %}
+
+{% block main %}
+    <div class="mood-log container py-4">
+
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+
+                <h2 class="mb-2 text-capitalize">new mood entry</h2>
+                <p class="text-muted small mb-4">
+                    take a moment. how are you feeling right now?
+                </p>
+
+                <form action="/mood/log" method="post" class="mood-form">
+
+                    <!-- dropdown for mood selection -->
+                    <div class="mb-3">
+                        <!-- label makes more accessible to screen readers -->
+                        <label for="mood_select" class="form-label text-lowercase">
+                            how are you feeling?
+                        </label>
+                        <!-- show dropdown list with moods categorized by their vibe -->
+                        <select id="mood_select" name="mood_select" class="form-select">
+                            <option disabled="" selected="">mood</option>
+                            <!-- .items() lets us access both vibe and mood from key-value pairs in moodlist -->
+                            {% for vibe, moods in moodlist.items() %}
+                                <optgroup label="{{ vibe }}">
+                                    {% for mood in moods %}
+                                        <option value="{{ mood }}">{{ mood }}</option>
+                                    {% endfor %}
+                                </optgroup>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text text-muted">
+                            pick a mood that fits, or add your own below.
+                        </div>
+                    </div>
+
+                    <!-- if user doesn't like anything from dropdown, can create new mood -->
+                    <div class="mb-3">
+                        <!-- label for accessibility again -->
+                        <label for="custom_mood" class="form-label text-lowercase">
+                            or type in a new mood
+                        </label>
+                        <!-- lets user type in new mood -->
+                        <input
+                            type="text"
+                            id="custom_mood"
+                            name="custom_mood"
+                            class="form-control"
+                            placeholder="new mood"
+                        >
+                        <div class="form-text text-muted">
+                            if you add a new mood, we'll save it as one of your “personal” moods.
+                        </div>
+                    </div>
+
+                    <!-- reflection on the cause of mood: not required -->
+                    <div class="mb-3">
+                        <label for="cause" class="form-label text-lowercase">
+                            what's driving your emotions today?
+                        </label>
+                        <!-- area for reflection to be typed- the request.form.get() makes sure they don't lose -->
+                        <!-- their cause reflection if they forget to choose a mood with it when submitting --> 
+                        <textarea
+                            id="cause"
+                            name="cause"
+                            class="form-control"
+                            rows="3"
+                            placeholder="classes, people, sleep, your phone, food, weather..."
+                        >{{ request.form.get('cause', '') }}</textarea>
+                    </div>
+
+                    {% if error %}
+                        <p class="error">{{ error }}</p>
+                    {% endif %}
+
+                    <button type="submit" class="primary-button mt-2">
+                        save mood
+                    </button>
+                    <a href="/mood" class="btn btn-link ms-2 text-lowercase">
+                        cancel
+                    </a>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

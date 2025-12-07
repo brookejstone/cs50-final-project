@@ -1,0 +1,122 @@
+<!-- very similar to other log pages: lets user log info on an activity -->
+{% extends "layout.html" %}
+
+{% block title %}
+    mindfulness activity entry
+{% endblock %}
+
+{% block main %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <h2 class="mb-2 text-capitalize">log an activity you tried for mindfulness!</h2>
+            <p class="text-muted small mb-4">
+                what'd you do?, how long did it take? how'd it feel?
+            </p>
+
+            <form action="/activities/log" method="post" class="activities-form">
+
+                <!-- activity name: maintains value user inputted even if reload page to give them -->
+                <!-- error message about fields filled out incorrectly -->
+                <div class="mb-3">
+                    <label for="name" class="form-label text-lowercase">
+                        what did you do?
+                    </label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-control"
+                        placeholder="walk along the charles, hot yoga, meditation, calling a friend..."
+                        value="{{ name if name is defined else '' }}"
+                    >
+                </div>
+
+                <!-- duration in hours and mins: dropdown menus for time -->
+                <div class="mb-3">
+                    <label class="form-label text-lowercase">
+                        how long did it take?
+                    </label>
+                    <div class="d-flex gap-2">
+                        <select name="hours" class="form-select w-auto">
+                            {% for h in range(0, 12) %}
+                                <option value="{{ h }}"
+                                    {% if selected_hours is defined and selected_hours|int == h %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ h }} h
+                                </option>
+                            {% endfor %}
+                        </select>
+
+                        <select name="minutes" class="form-select w-auto">
+                            {% for m in [0, 5, 10, 15, 30, 45] %}
+                                <option value="{{ m }}"
+                                    {% if selected_minutes is defined and selected_minutes|int == m %}
+                                        selected
+                                    {% endif %}
+                                >
+                                    {{ m }} min
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="form-text text-muted">
+                        if you're not sure, an estimate is totally okay!
+                    </div>
+                </div>
+
+                <!-- ask for input on enjoyment rating -->
+                <div class="mb-3">
+                    <label for="enjoyment" class="form-label text-lowercase">
+                        how much did you enjoy it? (0-10)
+                    </label>
+                    <input
+                        type="number"
+                        id="enjoyment"
+                        name="enjoyment"
+                        class="form-control"
+                        min="0"
+                        max="10"
+                        step="0.1"
+                        placeholder="e.g., 7.5"
+                        value="{{ enjoyment_value if enjoyment_value is defined else '' }}"
+                    >
+                    <div class="form-text text-muted">
+                        one decimal place is enough! don't overthink it- go with your gut.
+                    </div>
+                </div>
+
+                <!-- reflection -->
+                <div class="mb-3">
+                    <label for="reflection" class="form-label text-lowercase">
+                        what made this activity helpful (or not)?
+                    </label>
+                    <textarea
+                        id="reflection"
+                        name="reflection"
+                        class="form-control"
+                        rows="3"
+                        placeholder="who you were with, where you were, what you noticed during/after..."
+                    >{{ reflection if reflection is defined else "" }}</textarea>
+                </div>
+
+                <!-- same look of error/submission/canceling as other logs -->
+                {% if error %}
+                    <p class="error">{{ error }}</p>
+                {% endif %}
+
+                <button type="submit" class="primary-button mt-2">
+                    save activity entry
+                </button>
+                <a href="/activities" class="btn btn-link ms-2 text-lowercase">
+                    cancel
+                </a>
+
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
