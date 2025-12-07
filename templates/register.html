@@ -1,0 +1,22 @@
+<!-- code below will appear in the index page -->
+{% extends "layout.html" %}
+
+{% block body %}
+<h2>create an account!</h2>
+
+<form action="/register" method="post">
+
+    <!-- the form that lets them create account -->
+    <input type="text" name="username" placeholder="username" class="input">
+    <input type="password" name="password" placeholder="password" class="input">
+    <input type="password" name="confirmation" placeholder="confirm password" class="input">
+
+    <!-- if they do something weird in form, corresponding error will 
+    appear below it -->
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <button type="submit">register</button>
+</form>
+{% endblock %}
